@@ -1,17 +1,18 @@
 import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
-import { Container, Header } from '../styles'
-import { ArrowRight, Check } from 'phosphor-react'
-import { AuthError, ConnectBox, ConnectItem } from './styles'
 import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import { ArrowRight, Check } from 'phosphor-react'
+// import { api } from "../../../lib/axios"
+import { Container, Header } from '../styles'
+import { AuthError, ConnectBox, ConnectItem } from './styles'
 
 export default function ConnectCalendar() {
   const session = useSession()
   const router = useRouter()
 
   const hasAuthError = !!router.query.error
-  const isSignedIn = session.status === 'authenticated'
+  const isSignedId = session.status === 'authenticated'
 
   async function handleConnectCalendar() {
     await signIn('google')
@@ -24,6 +25,7 @@ export default function ConnectCalendar() {
   return (
     <>
       <NextSeo title="Conecte sua agenda do Google | Ignite Call" noindex />
+
       <Container>
         <Header>
           <Heading as="strong">Conecte sua agenda!</Heading>
@@ -38,7 +40,7 @@ export default function ConnectCalendar() {
         <ConnectBox>
           <ConnectItem>
             <Text>Google Calendar</Text>
-            {isSignedIn ? (
+            {isSignedId ? (
               <Button size="sm" disabled>
                 Conectado
                 <Check />
@@ -57,7 +59,7 @@ export default function ConnectCalendar() {
 
           {hasAuthError && (
             <AuthError size="sm">
-              Falha ao se conectar ao Google, verifique se voce habilitou as
+              Falha ao se conectar ao Google, verifique se você habilitou as
               permissões de acesso ao Google Calendar
             </AuthError>
           )}
@@ -65,7 +67,7 @@ export default function ConnectCalendar() {
           <Button
             onClick={handleNavigateToNextStep}
             type="submit"
-            disabled={!isSignedIn}
+            disabled={!isSignedId}
           >
             Próximo passo
             <ArrowRight />
